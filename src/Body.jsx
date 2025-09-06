@@ -1,5 +1,6 @@
 import FormNuevoContacto from "./FormNuevoContacto.jsx";
 import TablaDeContactos from "./TablaDeContactos.jsx";
+import { VISTA_LISTAR, VISTA_ALTA } from "./menuitems";
 
 const CONTACTOS = [
   {
@@ -19,12 +20,18 @@ const CONTACTOS = [
   },
 ];
 
-export default function Body() {
+export default function Body({ menuItem, onSetMenuItem }) {
   return (
     <main>
-      <div class="container">
-        <FormNuevoContacto />
-        <TablaDeContactos contactos={CONTACTOS} />
+      <div className="container">
+        {menuItem === VISTA_ALTA ? (
+          <FormNuevoContacto />
+        ) : (
+          <TablaDeContactos
+            contactos={CONTACTOS}
+            onAgregarClick={() => onSetMenuItem(VISTA_ALTA)}
+          />
+        )}
       </div>
     </main>
   );

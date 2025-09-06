@@ -1,11 +1,20 @@
 import FilaContacto from "./FilaContacto.jsx";
 
-export default function TablaDeContactos({ contactos }) {
+export default function TablaDeContactos({ contactos, onAgregarClick }) {
   return (
     <section>
       <h1>Contactos</h1>
-      <a class="btn btn-success mb-3">Agregar nuevo contacto</a>
-      <table class="table table-striped">
+      <a
+        className="btn btn-success mb-3"
+        href="#"
+        onClick={(e) => {
+          e.preventDefault();
+          onAgregarClick && onAgregarClick();
+        }}
+      >
+        Agregar nuevo contacto
+      </a>
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>Nombre</th>
@@ -14,7 +23,10 @@ export default function TablaDeContactos({ contactos }) {
         </thead>
         <tbody>
           {contactos.map((contacto) => (
-            <FilaContacto key={contacto.id} contacto={contacto} />
+            <FilaContacto
+              key={contacto.contactoId || contacto.id}
+              contacto={contacto}
+            />
           ))}
         </tbody>
       </table>
