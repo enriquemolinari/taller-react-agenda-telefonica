@@ -16,7 +16,12 @@ async function submitForm(prevState, formData) {
       "Content-Type": "application/json",
     },
   });
-  return response.ok;
+  let success = response.status === 200;
+  if (!success) {
+    const data = await response.json();
+    return { success: success, body: data };
+  }
+  return { success: success };
 }
 
 export default function FormNuevoContacto() {
@@ -33,8 +38,14 @@ export default function FormNuevoContacto() {
     <section>
       <h1>Alta de Contacto</h1>
       {state !== null && (
-        <p className={state ? "alert alert-success" : "alert alert-danger"}>
-          {state ? "Contacto creado exitosamente!" : "Error al crear contacto"}
+        <p
+          className={
+            state.success ? "alert alert-success" : "alert alert-danger"
+          }
+        >
+          {state.success
+            ? "Contacto creado exitosamente!"
+            : "Error al crear contacto:" + state.body.message}
         </p>
       )}
       <form method="post" action={formAction}>
