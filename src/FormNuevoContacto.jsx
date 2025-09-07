@@ -1,42 +1,85 @@
+import { useActionState } from "react";
+
+async function submitForm(prevState, formData) {
+  // This simulate an API call
+  //await new Promise((resolve) => setTimeout(resolve, 2000));
+  //return false;
+
+  const response = await fetch("http://localhost:8080/contactos", {
+    method: "POST",
+    body: JSON.stringify({
+      nombre: formData.get("nombre"),
+      codigoArea: formData.get("codigoArea"),
+      telefono: formData.get("telefono"),
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.ok;
+}
+
 export default function FormNuevoContacto() {
+  //submitForm  es la función que se llama al submitear el formulario
+  //state es lo que devuelve submitForm
+  //formAction funcion implementada por React. Ejecuta submitForm y maneja el estado
+  //isPending indica si la acción está en curso
+  const [state, formAction, isPending] = useActionState(
+    submitForm,
+    null /* initial state */
+  );
+
   return (
     <section>
       <h1>Alta de Contacto</h1>
-      <form method="post">
-        <div class="mb-3">
-          <label class="form-label" for="nombre">
+      {state !== null && (
+        <p className={state ? "alert alert-success" : "alert alert-danger"}>
+          {state ? "Contacto creado exitosamente!" : "Error al crear contacto"}
+        </p>
+      )}
+      <form method="post" action={formAction}>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="nombre">
             Nombre:
           </label>
-          <input class="form-control" id="nombre" required type="text" />
+          <input
+            className="form-control"
+            id="nombre"
+            name="nombre"
+            required
+            type="text"
+          />
         </div>
-        <div class="mb-3">
-          <label class="form-label" for="codigoArea">
+        <div className="mb-3">
+          <label className="form-label" htmlFor="codigoArea">
             Código de Área:
           </label>
           <input
-            class="form-control"
+            className="form-control"
             id="codigoArea"
-            maxlength="4"
-            minlength="4"
+            maxLength="4"
+            minLength="4"
             required
+            name="codigoArea"
             type="text"
           />
         </div>
-        <div class="mb-3">
-          <label class="form-label" for="telefono">
+        <div className="mb-3">
+          <label className="form-label" htmlFor="telefono">
             Teléfono:
           </label>
           <input
-            class="form-control"
+            className="form-control"
             id="telefono"
-            maxlength="7"
-            minlength="6"
+            maxLength="7"
+            minLength="6"
             required
+            name="telefono"
             type="text"
           />
         </div>
-        <button class="btn btn-primary" type="submit">
-          Guardar
+        <button className="btn btn-primary" type="submit" disabled={isPending}>
+          {isPending ? "Guardando..." : "Guardar"}
         </button>
       </form>
     </section>
