@@ -14,7 +14,7 @@ function App() {
 
   return (
     <>
-      <Header onSetMenuItem={handleSetMenuItem} menuItem={menuItem} />
+      <Header menuItem={menuItem} onSetMenuItem={handleSetMenuItem} />
       <Body menuItem={menuItem} onSetMenuItem={handleSetMenuItem} />
     </>
   );

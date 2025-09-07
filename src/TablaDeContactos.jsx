@@ -9,7 +9,7 @@ export default function TablaDeContactos({ contactos, onAgregarClick }) {
         href="#"
         onClick={(e) => {
           e.preventDefault();
-          onAgregarClick && onAgregarClick();
+          onAgregarClick();
         }}
       >
         Agregar nuevo contacto
