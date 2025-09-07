@@ -1,6 +1,18 @@
+import { useEffect, useState } from "react";
 import FilaContacto from "./FilaContacto.jsx";
 
-export default function TablaDeContactos({ contactos, onAgregarClick }) {
+export default function TablaDeContactos({ onAgregarClick }) {
+  const [contactos, setContactos] = useState([]);
+
+  useEffect(() => {
+    const obtenerContactos = async () => {
+      const response = await fetch("http://localhost:8080/contactos?page=1");
+      const data = await response.json();
+      setContactos(data);
+    };
+    obtenerContactos();
+  }, []);
+
   return (
     <section>
       <h1>Contactos</h1>
