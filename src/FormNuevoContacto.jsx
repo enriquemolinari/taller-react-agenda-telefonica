@@ -1,4 +1,5 @@
 import { useActionState } from "react";
+import Alert from "./Alert";
 
 async function submitForm(prevState, formData) {
   // This simulate an API call
@@ -37,17 +38,7 @@ export default function FormNuevoContacto() {
   return (
     <section>
       <h1>Alta de Contacto</h1>
-      {state !== null && (
-        <p
-          className={
-            state.success ? "alert alert-success" : "alert alert-danger"
-          }
-        >
-          {state.success
-            ? "Contacto creado exitosamente!"
-            : "Error al crear contacto:" + state.body.message}
-        </p>
-      )}
+      <Alert estadoAccion={state} />
       <form method="post" action={formAction}>
         <div className="mb-3">
           <label className="form-label" htmlFor="nombre">
